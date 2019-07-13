@@ -304,8 +304,37 @@ def edit(resnum):
         xt = rclextract.Extractor(doc)
         path = xt.idoctofile(doc.ipath, doc.mimetype)
         pathismine = True
-    # bottle.response.headers['Content-Disposition'] = \
-    #     'attachment; filename="%s"' % os.path.basename(path).encode('utf-8')
+    bottle.response.headers['Content-Disposition'] = \
+        'attachment; filename="%s"' % os.path.basename(path).encode('utf-8')
+    path = path.encode('utf-8')
+    bottle.response.headers['Content-Length'] = os.stat(path).st_size
+    f = open(path, 'r')
+    if pathismine:
+        os.unlink(path)
+    return f
+#}}}
+#{{{ show
+@bottle.route('/show/<resnum:int>')
+def edit(resnum):
+    if not hasrclextract:
+        return 'Sorry, needs recoll version 1.19 or later'
+    query = get_query()
+    qs = query_to_recoll_string(query)
+    rclq = recoll_initsearch(query)
+    if resnum > rclq.rowcount - 1:
+        return 'Bad result index %d' % resnum
+    rclq.scroll(resnum)
+    doc = rclq.fetchone()
+    bottle.response.content_type = doc.mimetype
+    pathismine = False
+    if doc.ipath == '':
+        # If ipath is null, we can just return the file
+        path = doc.url.replace('file://','')
+    else:
+        # Else this is a subdocument, extract to temporary file
+        xt = rclextract.Extractor(doc)
+        path = xt.idoctofile(doc.ipath, doc.mimetype)
+        pathismine = True
     path = path.encode('utf-8')
     bottle.response.headers['Content-Length'] = os.stat(path).st_size
     f = open(path, 'r')
