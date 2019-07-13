@@ -1,44 +1,20 @@
 %import shlex, unicodedata, os
-<div class="search-result">
-    %number = (query['page'] - 1)*config['perpage'] + i + 1
-    <div class="search-result-number"><a href="#r{{d['sha']}}">#{{number}}</a></div>
-    %url = d['url'].replace('file://', '')
-    %for dr, prefix in config['mounts'].items():
-        %url = url.replace(dr, prefix)
-    %end
-    <div class="search-result-title" id="r{{d['sha']}}" title="{{d['abstract']}}">
-    %if config.has_key('title_link') and config['title_link'] != 'download':
-        %if config['title_link'] == 'open':
-            <a href="{{url}}">{{d['label']}}</a>
-        %elif config['title_link'] == 'preview':
-            <a href="preview/{{number-1}}?{{query_string}}">{{d['label']}}</a>
-        %end
-    %else:
-        <a href="download/{{number-1}}?{{query_string}}">{{d['label']}}</a>
-    %end
-    </div>
-    %if len(d['ipath']) > 0:
-        <div class="search-result-ipath">[{{d['ipath']}}]</div>
-    %end
-    %if d.has_key('author') and len(d['author']) > 0:
-        <div class="search-result-author">{{d['author']}}</div>
-    %end
-    <div class="search-result-url">
-        %urllabel = os.path.dirname(d['url'].replace('file://', ''))
-        %for r in config['dirs']:
-            %urllabel = urllabel.replace(r.rsplit('/',1)[0] + '/' , '')
-        %end
-        <a href="{{os.path.dirname(url)}}">{{urllabel}}</a>
-    </div>
-    <div class="search-result-links">
-        <a href="{{url}}">Open</a>
-        <a href="download/{{number-1}}?{{query_string}}">Download</a>
-    %if hasrclextract:
-        <a href="preview/{{number-1}}?{{query_string}}" target="_blank">Preview</a>
-    %end
-    </div>
-    <div class="search-result-date">{{d['time']}}</div>
-    <div class="search-result-snippet">{{!d['snippet']}}</div>
-</div>
-<!-- vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et:ai
--->
+    <article class="search-result row">
+      <div class="col-xs-12 col-sm-12 col-md-3">
+        <a href="#" title="Lorem ipsum" class="thumbnail"><img src="http://lorempixel.com/250/140/people" alt="Lorem ipsum" /></a>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-2">
+        <ul class="meta-search">
+          <li><i class="glyphicon glyphicon-calendar"></i> <span>{{d['time']}}</span></li>
+          <li><i class="glyphicon glyphicon-time"></i> <span>{{d['time']}}</span></li>
+          <li><i class="glyphicon glyphicon-tags"></i> <span>Finanzen</span></li>
+        </ul>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
+        <h3><a href="#" title="">{{d['label']}}</a></h3>
+        <p>{{!d['snippet']}}</p>
+        <span class="download"><a href="download/{{i}}?{{query_string}}" title="Lorem ipsum"><i class="glyphicon glyphicon-download"></i></a></span>
+      </div>
+      <span class="clearfix borda"></span>
+    </article>
+

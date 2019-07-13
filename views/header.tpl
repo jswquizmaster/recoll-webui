@@ -1,13 +1,15 @@
 <html>
 <head>
-    <title>recoll{{title}}</title>
-    <link rel="stylesheet" type="text/css" href="static/style.css">
-    <script type="text/javascript" src="static/jquery.js"></script>
-    <script type="text/javascript" src="static/extra.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script type="text/javascript" src="static/jdpicker.js"></script>
-    <link rel="stylesheet" type="text/css" href="static/jdpicker.css">
-    <link rel="icon" type="image/png" href="static/recoll.png">
-    <link rel="search" type="application/opensearchdescription+xml" title="recoll" href="osd.xml">
+  <title>recoll{{title}}</title>
+
+  <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="http://cdn.rawgit.com/eternicode/bootstrap-datepicker/1.3.0/css/datepicker3.css" rel="stylesheet">
+  <link href="static/style.css" rel="stylesheet">
+
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 </head>
 <body>

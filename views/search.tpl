@@ -1,58 +1,80 @@
 %import re
-<div id="fade"></div>
-<div id="searchbox">
-<form action="results" method="get">
-<table id="form">
-<tr>
-    <td width="50%">
-        <b>Query</b>
-        <input tabindex="0" type="search" name="query" value="{{query['query']}}" autofocus><br><br>
-        <input type="submit" value="Search">&nbsp;
-        <a href="./" tabindex="-1"><input type="button" value="Reset"></a>&nbsp;
-        <a href="settings" tabindex="-1"><input type="button" value="Settings"></a>
-    </td>
-    <td width="30%">
-        <b>Folder</b><br>
-        <select id="folders" name="dir">
-        %for d in sorted(dirs, key=str.lower):
-            %space = "&nbsp;" * (4 * d.count('/'))
-            %if d in query['dir']:
-            %selected = "selected"
-            %else:
-            %selected = ""
-            %end
-            <option {{selected}} value="{{d}}">{{!space}}{{re.sub('.+/','', d)}}</option>
-        %end
-        </select><br>
-        <b>Dates</b> <small class="gray">YYYY[-MM][-DD]</small><br>
-        <input name="after" value="{{query['after']}}" autocomplete="off"> &mdash; <input name="before" value="{{query['before']}}" autocomplete="off">
-    </td>
-    <td>
-        <b>Sort by</b>
-        <select name="sort">
-        %for s in sorts:
-            %if query['sort'] == s[0]:
-                <option selected value="{{s[0]}}">{{s[1]}}</option>
-            %else:
-                <option value="{{s[0]}}">{{s[1]}}</option>
-            %end
-        %end
-        </select><br>
-        <b>Order</b>
-        <select name="ascending">
-            %if int(query['ascending']) == 1:
-                <option value="0">Descending</option>
-                <option value="1" selected>Ascending</option>
-            %else:
-                <option value="0" selected>Descending</option>
-                <option value="1">Ascending</option>
-            %end
-        </select>
-    </td>
-</tr>
-</table>
-<input type="hidden" name="page" value="1" />
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="input-group" id="adv-search">
+        <input type="text" class="form-control" id="query" value="{{query['query']}}" autofocus placeholder="Search for documents" />
+          <div class="input-group-btn">
+            <div class="btn-group" role="group">
+              <div class="dropdown dropdown-lg">
+                <button type="button" id="dropdownMenu1" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                  <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                      <label for="datesto">From</label>
+                      <div class='input-group date'>
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='text' id="after" value="{{query['after']}}" class="date-picker form-control" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="datesto">To</label>
+                      <div class='input-group date'>
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                        <input type='text' id="before" value="{{query['before']}}" class="date-picker form-control" data-date-format="yyyy-mm-dd" placeholder="YYYY-MM-DD"/>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="folder">Folder</label>
+                      <select id="dir" class="form-control">
+                      %for d in sorted(dirs, key=str.lower):
+                        %space = "&nbsp;" * (4 * d.count('/'))
+                        %if d in query['dir']:
+                        %selected = "selected"
+                        %else:
+                        %selected = ""
+                        %end
+                        <option {{selected}} value="{{d}}">{{!space}}{{re.sub('.+/','', d)}}</option>
+                      %end                      
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="sortby">Sort by</label>
+                      <select id="sort" class="form-control">
+                      %for s in sorts:
+                        %if query['sort'] == s[0]:
+                          <option selected value="{{s[0]}}">{{s[1]}}</option>
+                        %else:
+                          <option value="{{s[0]}}">{{s[1]}}</option>
+                        %end
+                      %end
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label for="order">Order</label>
+                      <select id="ascending" class="form-control">
+                      %if int(query['ascending']) == 1:
+                        <option value="0">Descending</option>
+                        <option value="1" selected>Ascending</option>
+                      %else:
+                        <option value="0" selected>Descending</option>
+                        <option value="1">Ascending</option>
+                      %end
+                      </select>
+                    </div>
+                    <button type="button" id="btnSearch2" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                  </form>
+                </div>
+              </div>
+              <button type="button" id="btnSearch" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<!-- vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et:ai
--->
