@@ -219,7 +219,7 @@ def recoll_search(q, dosnippets=True):
                 d[f] = v.encode('utf-8')
             else:
                 d[f] = ''
-        d['label'] = select([d['title'], d['filename'], '?'], [None, ''])
+        d['label'] = d['filename']
         d['sha'] = hashlib.sha1(d['url']+d['ipath']).hexdigest()
         d['date'] = timestr(d['mtime'], "%d/%m/%Y")
         d['time'] = timestr(d['mtime'], "%H:%M Uhr")
@@ -274,13 +274,12 @@ def preview(resnum):
         return 'Bad result index %d' % resnum
     rclq.scroll(resnum)
     doc = rclq.fetchone()
-    xt = rclextract.Extractor(doc)
-    tdoc = xt.textextract(doc.ipath)
-    if tdoc.mimetype == 'text/html':
-        bottle.response.content_type = 'text/html; charset=utf-8'
-    else:
-        bottle.response.content_type = 'text/plain; charset=utf-8'
-    return tdoc.text
+    filename = doc.url.replace('file://','')
+    (path, basename) = os.path.split(filename)
+    preview_file = path + "/preview_images/" + basename + ".jpg"
+    bottle.response.content_type = 'image/jpeg'
+    f = open(preview_file, 'r')
+    return f
 #}}}
 #{{{ download
 @bottle.route('/download/<resnum:int>')
@@ -401,4 +400,3 @@ def main():
     return {'url': url}
 #}}}
 # vim: fdm=marker:tw=80:ts=4:sw=4:sts=4:et
-

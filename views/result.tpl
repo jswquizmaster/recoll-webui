@@ -1,7 +1,7 @@
 %import shlex, unicodedata, os
     <article class="search-result row">
       <div class="col-xs-12 col-sm-12 col-md-3">
-        <a href="show/{{i}}?{{query_string}}" title="Lorem ipsum" class="thumbnail"><img src="http://lorempixel.com/250/140/people" alt="Lorem ipsum" /></a>
+        <a href="show/{{i}}?{{query_string}}" title="Lorem ipsum" class="thumbnail"><img src="preview/{{i}}?{{query_string}}" alt="Lorem ipsum" /></a>
       </div>
       <div class="col-xs-12 col-sm-12 col-md-2">
         <ul class="meta-search">
@@ -17,4 +17,3 @@
       </div>
       <span class="clearfix borda"></span>
     </article>
-
